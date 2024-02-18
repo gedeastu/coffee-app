@@ -11,12 +11,9 @@ import com.example.coffeeapp.ui.widgets.BottomBar
 
 @Composable
 fun MainScreen(navController: NavHostController = rememberNavController()){
-    Scaffold(
-        bottomBar = {
-            BottomBar(navController = navController)
-        }
-    ) { paddingValues ->
-        Modifier.padding(paddingValues)
+    Scaffold( bottomBar = { BottomBar(navController = navController) } )
+    { paddingValues ->
+        var modifier =  Modifier.padding(paddingValues)
         MainNavGraph(navController = navController)
     }
 }

@@ -6,10 +6,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.coffeeapp.ui.screens.contentsScreens.HomeScreen
 
 @Composable
-fun MainNavGraph(navController: NavHostController){
+fun MainNavGraph(navController: NavHostController = rememberNavController()){
     NavHost(navController = navController, startDestination = BottomBarNavGraph.Home.route, route = Graph.MAIN_SCREEN_PAGE){
         homeNavGraph(navController = navController)
     }

@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.coffeeapp.R
 import com.example.coffeeapp.graphs.AuthScreen
-import com.example.coffeeapp.graphs.BottomBarNavGraph
+import com.example.coffeeapp.graphs.Graph
 
 @Composable
 fun SplashScreen(navController: NavController){
@@ -36,7 +36,7 @@ fun SplashScreen(navController: NavController){
                 }
             )
         )
-        navController.navigate(BottomBarNavGraph.Home.route){
+        navController.navigate(Graph.MAIN_SCREEN_PAGE){
             popUpTo(AuthScreen.SPLASH.route){
                 inclusive = true
             }

@@ -11,9 +11,7 @@ fun NavGraphBuilder.authNavGraph(navController: NavHostController){
         route = Graph.AUTHENTICATION,
         startDestination = AuthScreen.SPLASH.route
     ){
-        composable(
-            route = AuthScreen.SPLASH.route
-        ){
+        composable(route = AuthScreen.SPLASH.route){
            SplashScreen(navController = navController)
         }
     }
