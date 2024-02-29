@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.coffeeapp.ui.screens.contentsScreens.HomeScreen
+import com.example.coffeeapp.ui.screens.contentsScreens.ProfileScreen
 
 @Composable
 fun MainNavGraph(navController: NavHostController = rememberNavController()){
@@ -19,5 +20,8 @@ fun MainNavGraph(navController: NavHostController = rememberNavController()){
 fun NavGraphBuilder.homeNavGraph(navController: NavController){
     composable(route = BottomBarNavGraph.Home.route){
         HomeScreen()
+    }
+    composable(route = BottomBarNavGraph.Profile.route){
+        ProfileScreen()
     }
 }

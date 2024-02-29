@@ -8,9 +8,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.coffeeapp.graphs.RootNavigationGraph
+import com.example.coffeeapp.persentation.sign_in.GoogleAuthUIClient
 import com.example.coffeeapp.ui.theme.CoffeeAppTheme
+import com.google.android.gms.auth.api.identity.Identity
 
 class MainActivity : ComponentActivity() {
+    private val googleAuthUIClient by lazy {
+        GoogleAuthUIClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -20,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    RootNavigationGraph()
+                    RootNavigationGraph( googleAuthUIClient = googleAuthUIClient)
                 }
             }
         }
