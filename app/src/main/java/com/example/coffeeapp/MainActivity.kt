@@ -140,7 +140,7 @@ class MainActivity : ComponentActivity() {
                                                     "Signed Out",
                                                     Toast.LENGTH_LONG
                                                 ).show()
-                                                navController.popBackStack()
+                                                navController.navigate(AuthScreen.Login.route)
                                             }
                                         })
                                 }
