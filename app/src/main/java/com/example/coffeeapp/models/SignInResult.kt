@@ -1,7 +1,7 @@
-package com.example.coffeeapp.persentation.sign_in
+package com.example.coffeeapp.models
 
 data class SignInResult(
-    val data: com.example.coffeeapp.persentation.sign_in.UserData?,
+    val data: UserData?,
     val errorMessage: String?
 )
 

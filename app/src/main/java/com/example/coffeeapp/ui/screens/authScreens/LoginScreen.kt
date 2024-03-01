@@ -12,13 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import com.example.coffeeapp.graphs.AuthScreen
-import com.example.coffeeapp.graphs.Graph
-import com.example.coffeeapp.persentation.sign_in.SignInState
+import com.example.coffeeapp.models.SignInState
 
 @Composable
-fun LoginScreen(state: SignInState, onSignInClick:()->Unit, navController: NavController) {
-
+fun LoginScreen(navController: NavController, state: SignInState, onSignInClick: () -> Unit) {
     val context = LocalContext.current
 
     LaunchedEffect(key1 = state.signInError, block = {
@@ -30,15 +27,11 @@ fun LoginScreen(state: SignInState, onSignInClick:()->Unit, navController: NavCo
             ).show()
         }
     })
-
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         Column(modifier = Modifier){
             Text(text = "LOGIN")
             Button(onClick = {
-                onSignInClick
-                navController.navigate(Graph.MAIN_SCREEN_PAGE) {
-                    popUpTo(AuthScreen.Login.route) { inclusive = true }
-                }
+                onSignInClick()
             }) {
                 Text(text = "Login with Google")
             }

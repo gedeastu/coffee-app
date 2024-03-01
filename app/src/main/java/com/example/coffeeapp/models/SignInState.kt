@@ -1,4 +1,4 @@
-package com.example.coffeeapp.persentation.sign_in
+package com.example.coffeeapp.models
 
 data class SignInState(
     val isSignSuccessful: Boolean = false,
