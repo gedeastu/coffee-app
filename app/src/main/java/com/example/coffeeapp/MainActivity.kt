@@ -154,19 +154,28 @@ class MainActivity : ComponentActivity() {
                                         }
                                     }
                                     composable(route = BottomBarNavGraph.Profile.route) {
-                                        ProfileScreen(
-                                            userData = googleAuthUIClient.getSignedInUser(),
-                                            onSignOut = {
-                                                lifecycleScope.launch {
-                                                    googleAuthUIClient.signOut()
-                                                    Toast.makeText(
-                                                        applicationContext,
-                                                        "Signed Out",
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                    navController.navigate(AuthScreen.Login.route)
-                                                }
-                                            })
+                                        SwipeRefresh(state = swipeRefreshState, onRefresh = swipeRefreshViewModel::loadStuff, indicator = { state, refreshTrigger ->
+                                            SwipeRefreshIndicator(
+                                                state = state,
+                                                refreshTriggerDistance = refreshTrigger,
+                                                backgroundColor = Color.DarkGray,
+                                                contentColor = Color.White
+                                            )
+                                        }) {
+                                            ProfileScreen(
+                                                userData = googleAuthUIClient.getSignedInUser(),
+                                                onSignOut = {
+                                                    lifecycleScope.launch {
+                                                        googleAuthUIClient.signOut()
+                                                        Toast.makeText(
+                                                            applicationContext,
+                                                            "Signed Out",
+                                                            Toast.LENGTH_LONG
+                                                        ).show()
+                                                        navController.navigate(AuthScreen.Login.route)
+                                                    }
+                                                })
+                                        }
                                     }
                                 }
                         }

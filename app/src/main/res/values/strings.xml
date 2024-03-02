@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">coffeeApp</string>
+    <string name="home">Home</string>
+    <string name="keranjang">Keranjang</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="profile">Profile</string>
     <string name="web_client_id">321246386987-oq8432eh9on0rj27obtfk41dufgqftng.apps.googleusercontent.com</string>
 </resources>

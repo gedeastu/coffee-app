@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,8 +28,9 @@ fun ProfileScreen(
     userData: UserData?,
     onSignOut: () -> Unit
 ) {
+    val scrollState = rememberScrollState()
     Column(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().verticalScroll(state = scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){

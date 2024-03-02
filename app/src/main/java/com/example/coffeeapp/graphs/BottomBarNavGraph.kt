@@ -1,9 +1,9 @@
 package com.example.coffeeapp.graphs
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -26,7 +26,7 @@ sealed class BottomBarNavGraph (
     data object Riwayat: BottomBarNavGraph(
         route = "RIWAYAT",
         title = "Riwayat",
-        icon = Icons.Default.List
+        icon = Icons.AutoMirrored.Filled.List
     )
     data object Profile: BottomBarNavGraph(
         route = "PROFILE",
