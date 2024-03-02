@@ -80,4 +80,8 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.6.0")
 
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.35.0-alpha")
+
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.27.0")
+
 }

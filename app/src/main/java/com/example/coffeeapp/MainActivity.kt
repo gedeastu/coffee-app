@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,12 +28,16 @@ import com.example.coffeeapp.graphs.BottomBarNavGraph
 import com.example.coffeeapp.graphs.Graph
 import com.example.coffeeapp.persentation.sign_in.GoogleAuthUIClient
 import com.example.coffeeapp.persentation.sign_in.SignInViewModel
+import com.example.coffeeapp.persentation.swipe_refresh.SwipeRefreshViewModel
 import com.example.coffeeapp.ui.screens.SplashScreen
 import com.example.coffeeapp.ui.screens.authScreens.LoginScreen
 import com.example.coffeeapp.ui.screens.contentsScreens.HomeScreen
 import com.example.coffeeapp.ui.screens.contentsScreens.ProfileScreen
 import com.example.coffeeapp.ui.theme.CoffeeAppTheme
 import com.example.coffeeapp.ui.widgets.BottomBar
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 
@@ -43,18 +49,26 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    //@OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CoffeeAppTheme {
+                val swipeRefreshViewModel = viewModel<SwipeRefreshViewModel>()
+                val isLoading by swipeRefreshViewModel.isLoading.collectAsState()
+                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isLoading)
+
                 val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
                 Scaffold(
                     bottomBar = { BottomBar(navController = navController) }
                 ){paddingValues ->
                     Box(
-                        modifier = Modifier.fillMaxSize().padding(paddingValues = paddingValues),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues = paddingValues),
                     ) {
+
                         NavHost(
                             navController = navController,
                             startDestination = Graph.AUTHENTICATION,
@@ -100,7 +114,9 @@ class MainActivity : ComponentActivity() {
                                                 Toast.LENGTH_LONG
                                             ).show()
 
-                                            navController.navigate(Graph.MAIN_SCREEN_PAGE)
+                                            navController.navigate(Graph.MAIN_SCREEN_PAGE){
+
+                                            }
 
                                             viewModel.resetState()
                                         }
@@ -121,30 +137,38 @@ class MainActivity : ComponentActivity() {
                                         })
                                 }
                             }
-
                             navigation(
                                 startDestination = BottomBarNavGraph.Home.route,
                                 route = Graph.MAIN_SCREEN_PAGE
                             ) {
-                                composable(route = BottomBarNavGraph.Home.route) {
-                                    HomeScreen()
+                                    composable(route = BottomBarNavGraph.Home.route) {
+                                        SwipeRefresh(state = swipeRefreshState, onRefresh = swipeRefreshViewModel::loadStuff,indicator = { state, refreshTrigger ->
+                                            SwipeRefreshIndicator(
+                                                state = state,
+                                                refreshTriggerDistance = refreshTrigger,
+                                                backgroundColor = Color.DarkGray,
+                                                contentColor = Color.White
+                                            )
+                                        }){
+                                            HomeScreen()
+                                        }
+                                    }
+                                    composable(route = BottomBarNavGraph.Profile.route) {
+                                        ProfileScreen(
+                                            userData = googleAuthUIClient.getSignedInUser(),
+                                            onSignOut = {
+                                                lifecycleScope.launch {
+                                                    googleAuthUIClient.signOut()
+                                                    Toast.makeText(
+                                                        applicationContext,
+                                                        "Signed Out",
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                    navController.navigate(AuthScreen.Login.route)
+                                                }
+                                            })
+                                    }
                                 }
-                                composable(route = BottomBarNavGraph.Profile.route) {
-                                    ProfileScreen(
-                                        userData = googleAuthUIClient.getSignedInUser(),
-                                        onSignOut = {
-                                            lifecycleScope.launch {
-                                                googleAuthUIClient.signOut()
-                                                Toast.makeText(
-                                                    applicationContext,
-                                                    "Signed Out",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
-                                                navController.navigate(AuthScreen.Login.route)
-                                            }
-                                        })
-                                }
-                            }
                         }
                     }
                 }
